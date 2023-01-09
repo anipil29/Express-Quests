@@ -60,7 +60,11 @@ const getUserById = (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      res.status(500).send("Error saving the User");
+      if ((err.code = "ER_DUP_ENTRY")) {
+        res.status(500).send(`The user with email: ${email} already exists`);
+      } else {
+        res.status(500).send("Error saving the User");
+      }
     });
 };
 
